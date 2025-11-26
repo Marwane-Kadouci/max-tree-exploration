@@ -1,7 +1,6 @@
 # Max-Tree : Basic Implementation + Area Filtering
 
-Small C++ implementation of a Max‑Tree class and a morphological area filter,
-implemented to experiment with the concepts from
+Small C++ implementation of a Max‑Tree class and a morphological area filter to explore the concepts in
 ["A Comparative Review of Component Tree Computation Algorithms"](https://inria.hal.science/hal-01474830/file/carlinet.201X.itip.pdf) (Edwin Carlinet & Thierry Géraud).
 
 
