@@ -1,9 +1,9 @@
 #include <fstream>
 #include <iostream>
 
-#include "maxtree/display.hpp"
+#include "cpu/display.hpp"
 
-namespace maxtree
+namespace cpu
 {
     namespace display
     {
@@ -52,7 +52,7 @@ namespace maxtree
             std::cout << std::endl;
         }
 
-        void printMaxTree(maxtree::core::MaxTree mt)
+        void printMaxTree(cpu::maxtree::MaxTree mt)
         {
             cv::Mat image = mt.image;
             std::vector<int> parentImage = mt.parentImage;

@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "maxtree/core.hpp"
+#include "cpu/maxtree.hpp"
 
-namespace maxtree
+namespace cpu
 {
     namespace display
     {
@@ -12,6 +12,6 @@ namespace maxtree
         void printImage(cv::Mat image, int width, int height);
         void printParentImage(std::vector<int> parentImage, int width, int height);
         void printS(std::vector<int> orderingArray);
-        void printMaxTree(maxtree::core::MaxTree mt);
+        void printMaxTree(cpu::maxtree::MaxTree mt);
     }
 }

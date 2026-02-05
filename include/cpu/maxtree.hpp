@@ -5,9 +5,9 @@
 #include <tuple>
 #include <vector>
 
-namespace maxtree
+namespace cpu
 {
-    namespace core
+    namespace maxtree
     {
         class MaxTree {
         public:

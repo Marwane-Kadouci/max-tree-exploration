@@ -1,10 +1,10 @@
 #include <numeric>
 
-#include "maxtree/core.hpp"
+#include "cpu/maxtree.hpp"
 
-namespace maxtree
+namespace cpu
 {
-    namespace core
+    namespace maxtree
     {
         void MaxTree::initAttributes(cv::Mat image)
         {

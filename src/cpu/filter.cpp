@@ -1,10 +1,10 @@
-#include "maxtree/filter.hpp"
+#include "cpu/filter.hpp"
 
-namespace maxtree
+namespace cpu
 {
     namespace filter
     {
-        std::vector<int> computeArea(maxtree::core::MaxTree mt)
+        std::vector<int> computeArea(cpu::maxtree::MaxTree mt)
         {
             std::vector<int> attribute(mt.width * mt.height);
             int pRoot = mt.orderingArray[0];
@@ -29,7 +29,7 @@ namespace maxtree
             return attribute;
         }
 
-        std::vector<int> applyFilter(maxtree::core::MaxTree mt, std::vector<int> attribute, int threshold)
+        std::vector<int> applyFilter(cpu::maxtree::MaxTree mt, std::vector<int> attribute, int threshold)
         {
             std::vector<int> out(mt.width * mt.height, -1);
             int pRoot = mt.orderingArray[0];
