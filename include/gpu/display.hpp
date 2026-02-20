@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "cpu/maxtree.hpp"
+#include "gpu/maxtree.hpp"
 
-namespace cpu
+namespace gpu
 {
     namespace display
     {
@@ -12,7 +12,7 @@ namespace cpu
         void printImage(cv::Mat image, int width, int height);
         void printParentImage(std::vector<int> parentImage, int width, int height);
         void printS(std::vector<int> orderingArray);
-        void printMaxTree(cpu::maxtree::MaxTree mt);
-        void generateDotFile(const std::string& filename, std::vector<int> parent, int width, int height, cpu::maxtree::MaxTree  mt);
+        void printMaxTree(gpu::maxtree::MaxTree mt);
+        void generateDotFile(const std::string& filename, std::vector<int> parent, int width, int height, gpu::maxtree::MaxTree mt);
     }
 }

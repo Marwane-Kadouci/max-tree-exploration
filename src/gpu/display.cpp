@@ -1,9 +1,11 @@
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <vector>
 
-#include "cpu/display.hpp"
+#include "gpu/display.hpp"
 
-namespace cpu
+namespace gpu
 {
     namespace display
     {
@@ -52,7 +54,7 @@ namespace cpu
             std::cout << std::endl;
         }
 
-        void printMaxTree(cpu::maxtree::MaxTree mt)
+        void printMaxTree(gpu::maxtree::MaxTree mt)
         {
             cv::Mat image = mt.image;
             std::vector<int> parentImage = mt.parentImage;
@@ -64,19 +66,20 @@ namespace cpu
             printS(orderingArray);
         }
 
-        void generateDotFile(const std::string& filename, std::vector<int> parent, int width, int height, cpu::maxtree::MaxTree  mt) {
+        void generateDotFile(const std::string& filename, std::vector<int> parent, int width, int height, gpu::maxtree::MaxTree  mt)
+        {
             std::ofstream dotFile(filename);
             if (!dotFile.is_open()) return;
 
             dotFile << "digraph MaxTree {" << std::endl;
             dotFile << "    node [shape=circle];" << std::endl;
-            dotFile << "    label=\"CPU MaxTree\";" << std::endl;
+            dotFile << "    label=\"GPU MaxTree\";" << std::endl;
 
             int numPixels = width * height;
 
-
             for (int i = 0; i < numPixels; ++i) {
                 dotFile << "    " << i << "[label= \"" << mt.getPixel(i) << "\"";
+
                 if (parent[i] == i)
                 {
                     dotFile << ", color=red, style=filled";

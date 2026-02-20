@@ -1,1 +1,1 @@
-target_sources(main PRIVATE maxtree.cpp display.cpp filter.cpp)
+target_sources(main_cpu PRIVATE maxtree.cpp display.cpp filter.cpp)

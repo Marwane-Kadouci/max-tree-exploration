@@ -5,7 +5,7 @@
 
 namespace myopencv
 {
-    cv::Mat arrayToImage(std::vector<int> array, int width, int height)
+    cv::Mat arrayToImage(const std::vector<int>& array, int width, int height)
     {
         cv::Mat image(height, width, CV_8UC1);
     
