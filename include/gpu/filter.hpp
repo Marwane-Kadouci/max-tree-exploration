@@ -10,7 +10,8 @@ namespace gpu
 {
     namespace filter
     {
-        std::vector<int> computeArea(const gpu::maxtree::MaxTree& mt);
+        void computeAreaAttribute(int* d_areaAttribute, int* d_parent, int width, int height);
+        void applyFilter(uchar* d_pixels, int* d_parent, int* d_areaAttribute, int threshold, uchar* d_out, int width, int height);
         cv::Mat filterOnArea(const gpu::maxtree::MaxTree& mt, int threshold);
     }
 }

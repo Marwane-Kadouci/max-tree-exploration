@@ -6,7 +6,26 @@ namespace gpu
     {
         namespace device
         {
-            __global__ void applyFilter(uchar* d_pixels, int* d_parent, int* d_attribute, int threshold, uchar* d_out, int width, int height)
+            __global__ void computeAreaAttribute(int* d_areaAttribute, int* d_parent, int width, int height)
+            {
+                int index = blockIdx.x * blockDim.x + threadIdx.x;
+                int gridSize = gridDim.x * blockDim.x;
+
+                for (int p{index}; p < width * height; p += gridSize)
+                {
+                    atomicAdd(&d_areaAttribute[p], 1);
+                    int old = p;
+                    int q = d_parent[old];
+                    while (old != q)
+                    {
+                        atomicAdd(&d_areaAttribute[q], 1);
+                        old = q;
+                        q = d_parent[old];
+                    }
+                }
+            }
+
+            __global__ void applyFilter(uchar* d_pixels, int* d_parent, int* d_areaAttribute, int threshold, uchar* d_out, int width, int height)
             {
                 int index = blockIdx.x * blockDim.x + threadIdx.x;
                 int gridSize = gridDim.x * blockDim.x;
@@ -14,7 +33,7 @@ namespace gpu
                 int q;
                 for (int p{index}; p < width * height; p += gridSize) {
                     q = p;
-                    while (d_attribute[q] < threshold && q != d_parent[q])
+                    while (d_areaAttribute[q] < threshold && q != d_parent[q])
                     {
                         q = d_parent[q];
                     }
@@ -23,44 +42,29 @@ namespace gpu
             }
         }
 
-        std::vector<int> computeArea(const gpu::maxtree::MaxTree& mt)
+        void computeAreaAttribute(int* d_areaAttribute, int* d_parent, int width, int height)
         {
-            std::vector<int> attribute(mt.width * mt.height);
-            int pRoot = mt.orderingArray[0];
+            device::computeAreaAttribute<<<1024,1024>>>(d_areaAttribute, d_parent, width, height);
+            cudaDeviceSynchronize();
+        }
 
-            for (auto p : mt.orderingArray)
-            {
-                attribute[p] = 1;
-            }
-
-            int q;
-            int pixelIndex;
-            for (auto p = mt.orderingArray.rbegin(); p != mt.orderingArray.rend(); p++)
-            {
-                pixelIndex = *p;
-                if (pixelIndex != pRoot)
-                {
-                    q = mt.parentImage[pixelIndex];
-                    attribute[q] += attribute[pixelIndex];
-                }
-            }
-
-            return attribute;
+        void applyFilter(uchar* d_pixels, int* d_parent, int* d_areaAttribute, int threshold, uchar* d_out, int width, int height)
+        {
+            device::applyFilter<<<1024,1024>>>(d_pixels, d_parent, d_areaAttribute, threshold, d_out, width, height);
+            cudaDeviceSynchronize();
         }
 
         cv::Mat filterOnArea(const gpu::maxtree::MaxTree& mt, int threshold)
         {
-            std::vector<int> areaAttribute = gpu::filter::computeArea(mt); 
-
             size_t dataSize = mt.width * mt.height;
             
             uchar* d_out;
             cudaMalloc(&d_out, dataSize * sizeof(uchar));
             cudaMemcpy(d_out, mt.image.data, dataSize * sizeof(uchar), cudaMemcpyHostToDevice);
             
-            int* d_attribute;
-            cudaMalloc(&d_attribute, dataSize * sizeof(int));
-            cudaMemcpy(d_attribute, areaAttribute.data(), dataSize * sizeof(int), cudaMemcpyHostToDevice);
+            int* d_areaAttribute;
+            cudaMalloc(&d_areaAttribute, dataSize * sizeof(int));
+            cudaMemset(d_areaAttribute, 0, dataSize * sizeof(int));
 
             uchar* d_pixels;
             cudaMalloc(&d_pixels, dataSize * sizeof(uchar));
@@ -70,15 +74,15 @@ namespace gpu
             cudaMalloc(&d_parent, dataSize * sizeof(int));
             cudaMemcpy(d_parent, mt.parentImage.data(), dataSize * sizeof(int), cudaMemcpyHostToDevice);
              
-            device::applyFilter<<<1,1>>>(d_pixels, d_parent, d_attribute, threshold, d_out, mt.width, mt.height);
-            cudaDeviceSynchronize();
+            computeAreaAttribute(d_areaAttribute, d_parent, mt.width, mt.height);
+            applyFilter(d_pixels, d_parent, d_areaAttribute, threshold, d_out, mt.width, mt.height);
 
             uchar* h_out = (uchar*)malloc(dataSize * sizeof(uchar));
             cudaMemcpy(h_out, d_out, dataSize * sizeof(uchar), cudaMemcpyDeviceToHost);
          
 
             cudaFree(d_out);
-            cudaFree(d_attribute);
+            cudaFree(d_areaAttribute);
             cudaFree(d_pixels);
             cudaFree(d_parent);
             
