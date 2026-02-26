@@ -186,7 +186,7 @@ namespace gpu
             cudaMalloc(&d_parent, dataSize * sizeof(int));
             cudaMemset(d_parent, -1, dataSize * sizeof(int));
 
-            device::kernelMaxTree<<<100, 100>>>(d_pixels, width, height, d_parent);
+            device::kernelMaxTree<<<1024, 1024>>>(d_pixels, width, height, d_parent);
             cudaDeviceSynchronize();
             
             cudaMemcpy(parentImage.data(), d_parent, dataSize * sizeof(int), cudaMemcpyDeviceToHost);
