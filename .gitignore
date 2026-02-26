@@ -45,3 +45,5 @@ build
 .DS_Store
 .vscode
 CMakeFiles
+bench/plots
+bench/results

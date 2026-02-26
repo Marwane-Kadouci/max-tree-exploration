@@ -1,1 +1,2 @@
-target_sources(main_bench PRIVATE main_bench.cpp)
+target_sources(bench_cpu PRIVATE bench_cpu.cpp)
+target_sources(bench_gpu PRIVATE bench_gpu.cu)

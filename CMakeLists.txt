@@ -21,27 +21,34 @@ add_executable(main_cpu)
 
 target_link_libraries(main_cpu ${OpenCV_LIBS})
 
-target_include_directories(main_cpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
+target_include_directories(main_cpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(main_cpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # GPU
 if(CUDA_DEFINED)
     add_executable(main_gpu)
     target_link_libraries(main_gpu ${OpenCV_LIBS})
-    target_include_directories(main_gpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
+    target_include_directories(main_gpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
     target_include_directories(main_gpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 endif()
 
 # BENCH
-
 if(TRUE) # CUDA_DEFINED)
     find_package(benchmark REQUIRED)
-    add_executable(main_bench)
-    target_link_libraries(main_bench benchmark::benchmark)
-    target_link_libraries(main_bench ${OpenCV_LIBS})
-    target_include_directories(main_bench PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
-    target_include_directories(main_bench PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-    target_include_directories(main_bench PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/bench/include )
+
+    add_executable(bench_cpu)
+    target_link_libraries(bench_cpu benchmark::benchmark)
+    target_link_libraries(bench_cpu ${OpenCV_LIBS})
+    target_include_directories(bench_cpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_include_directories(bench_cpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    target_include_directories(bench_cpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/bench/include)
+
+    add_executable(bench_gpu)
+    target_link_libraries(bench_gpu benchmark::benchmark)
+    target_link_libraries(bench_gpu ${OpenCV_LIBS})
+    target_include_directories(bench_gpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_include_directories(bench_gpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    target_include_directories(bench_gpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/bench/include)
     
     add_subdirectory(bench)
 endif()
