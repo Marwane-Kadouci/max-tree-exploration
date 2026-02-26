@@ -1,7 +1,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-#include "opencv.hpp"
+#include "common/opencv.hpp"
 
 namespace myopencv
 {

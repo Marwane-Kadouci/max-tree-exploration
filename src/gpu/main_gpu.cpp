@@ -4,7 +4,7 @@
 #include "gpu/maxtree.hpp"
 #include "gpu/display.hpp"
 #include "gpu/filter.hpp"
-#include "opencv.hpp"
+#include "common/opencv.hpp"
 
 int main() {    
     // unsigned char donnees[] = { 

@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "gpu/maxtree.hpp"
-#include "opencv.hpp"
+#include "common/opencv.hpp"
 
 namespace gpu
 {

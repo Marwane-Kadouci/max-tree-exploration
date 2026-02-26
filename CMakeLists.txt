@@ -32,5 +32,19 @@ if(CUDA_DEFINED)
     target_include_directories(main_gpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 endif()
 
+# BENCH
+
+if(TRUE) # CUDA_DEFINED)
+    find_package(benchmark REQUIRED)
+    add_executable(main_bench)
+    target_link_libraries(main_bench benchmark::benchmark)
+    target_link_libraries(main_bench ${OpenCV_LIBS})
+    target_include_directories(main_bench PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
+    target_include_directories(main_bench PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    target_include_directories(main_bench PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/bench/include )
+    
+    add_subdirectory(bench)
+endif()
+
 #
 add_subdirectory(src)

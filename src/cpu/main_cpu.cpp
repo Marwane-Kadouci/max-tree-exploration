@@ -4,7 +4,7 @@
 #include "cpu/maxtree.hpp"
 #include "cpu/display.hpp"
 #include "cpu/filter.hpp"
-#include "opencv.hpp"
+#include "common/opencv.hpp"
 
 int main() {
     // unsigned char donnees[] = { 

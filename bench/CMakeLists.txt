@@ -1,0 +1,1 @@
+target_sources(main_bench PRIVATE main_bench.cpp)
