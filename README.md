@@ -1,14 +1,21 @@
-# Max-Tree : Basic Implementation + Area Filtering
+# Max-Tree on GPU
 
-Small C++ implementation of a Max‑Tree class and a morphological area filter to explore the concepts in
-["A Comparative Review of Component Tree Computation Algorithms"](https://inria.hal.science/hal-01474830/file/carlinet.201X.itip.pdf) (Edwin Carlinet & Thierry Géraud).
+## Overview
 
+This repository implements an image processing pipeline based on the Max-Tree data structure.
 
-## What I implemented
-This minimal sequential implementation includes:
-- Max‑Tree construction using union‑find without union-by-rank.
-- Area-based filtering of connected components.
+A Max-Tree is a hierarchical representation of a grayscale image that organizes connected components (CC) across intensity levels, making it easier to extract and filter image structures.
 
+Both sequential (CPU) and parallel (GPU/CUDA) implementations are provided in order to compare them.
+
+Benchmark files are included to evaluate CPU vs GPU versions.
+
+## Pipeline
+
+1. Max-Tree construction  
+2. Attribute computation  
+3. Attribute-based filtering  
+4. Reconstruction / output image
 
 ## Example
 
@@ -20,20 +27,28 @@ This minimal sequential implementation includes:
 
 ![Filtered](readmeImages/filtered.png)
 
-
 ## Build and run
 
-#### Dependencies:
-- C++20
+**Dependencies**:
+
+- C++17
 - CMake >= 3.21.2
 - OpenCV >= 4.6.0
+- Google Benchmark >= 1.8.3
 
-#### Commands:
+**Commands**:
+
+To run the benchmark, execute:
 ```bash
 cmake -B build
-cmake --build build --target main
-./build/main
+./bench/run_bench.sh
 ```
+The plot will be saved in `bench/plots`.
 
-#### Notes:
-Input images and area threshold can be adjusted in [`src/main.cpp`](src/main.cpp) for experimentation. Sample images for testing are provided in [`tests/images/`](tests/images).
+## References
+
+- Carlinet, E., & Géraud, T. (2014).  ["A Comparative Review of Component Tree Computation Algorithms"](https://inria.hal.science/hal-01474830/file/carlinet.201X.itip.pdf).
+- Berger, C., Géraud, T., Levillain, R., Widynski, N., Baillard, A., & Bertin, E. (2007). ["Effective Component Tree Computation with Application to Pattern Recognition in Astronomical Imaging"](https://www.researchgate.net/publication/4289461_Effective_Component_Tree_Computation_with_Application_to_Pattern_Recognition_in_Astronomical_Imaging).
+- Blin, N., Carlinet, E., Lemaitre, F., Lacassagne, L., & Géraud, T. (2022). ["Max-tree computation
+on GPUs."](https://hal.science/hal-03556296/document).
+- Paul D. Teeninga and Michael H. F. Wilkinson. (2025). ["Shape Filtering and Max-Tree Attribute Computation on a GPU"](https://link.springer.com/chapter/10.1007/978-3-032-09544-2_20).
