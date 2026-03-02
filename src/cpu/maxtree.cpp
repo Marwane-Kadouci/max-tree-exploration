@@ -51,7 +51,7 @@ namespace cpu
             par[r] = p;
         }
 
-        int MaxTree::getPixel(int p)
+        int MaxTree::getPixel(int p) const
         {
             int row = p / width;
             int col = p % width;

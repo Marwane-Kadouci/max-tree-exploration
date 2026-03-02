@@ -47,3 +47,5 @@ build
 CMakeFiles
 bench/plots
 bench/results
+tests/bigImages
+tests/output

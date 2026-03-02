@@ -15,7 +15,7 @@ namespace cpu
             MaxTree(std::string imagePath);
             ~MaxTree() = default;
             void initMaxTree();
-            int getPixel(int p);
+            int getPixel(int p) const;
 
         // private:
             void initAttributes(cv::Mat image);

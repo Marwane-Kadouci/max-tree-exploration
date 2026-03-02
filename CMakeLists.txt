@@ -24,6 +24,8 @@ target_link_libraries(main_cpu ${OpenCV_LIBS})
 target_include_directories(main_cpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(main_cpu PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 # GPU
 if(CUDA_DEFINED)
     add_executable(main_gpu)
